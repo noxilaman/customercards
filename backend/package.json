@@ -1,26 +1,25 @@
-﻿{
-    "name":  "backend",
-    "version":  "1.0.0",
-    "description":  "",
-    "main":  "index.js",
-    "scripts":  {
-                    "start":  "node index.js",
-                    "dev":  "node --watch index.js",
-                    "test":  "echo no tests"
-                },
-    "keywords":  [
-
-                 ],
-    "author":  "",
-    "license":  "ISC",
-    "type":  "commonjs",
-    "dependencies":  {
-                         "cors":  "^2.8.6",
-                         "dotenv":  "^17.4.2",
-                         "express":  "^5.2.1",
-                         "multer":  "^2.1.1",
-                         "mysql2":  "^3.22.4",
-                         "sharp":  "^0.34.5",
-                         "uuid":  "^14.0.0"
-                     }
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "node --watch index.js",
+        "test": "echo no tests"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "dependencies": {
+        "@anthropic-ai/sdk": "^0.99.0",
+        "cors": "^2.8.6",
+        "dotenv": "^17.4.2",
+        "express": "^5.2.1",
+        "multer": "^2.1.1",
+        "mysql2": "^3.22.4",
+        "sharp": "^0.34.5",
+        "uuid": "^14.0.0"
+    }
 }

@@ -15,6 +15,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // API routes
 app.use('/api/customers', require('./src/routes/customers'));
+app.use('/api/ocr', require('./src/routes/ocr'));
 
 // Serve frontend (production)
 const frontendDist = path.join(__dirname, '../frontend/dist');
