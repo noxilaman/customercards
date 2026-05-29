@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CameraCapture from './CameraCapture';
 import { createCustomer, updateCustomer } from '../api';
-import { recognizeCard } from '../utils/ocr';
+import { recognizeCard, parseCardFields } from '../utils/ocr';
 
 const COUNTRIES = ['Thailand', 'Japan', 'China', 'South Korea', 'United States', 'Singapore', 'Hong Kong'];
 const BUSINESS_TYPES = ['Trader', 'Wholeseller/Distributor', 'Supplier', 'Manufacturer', 'Government', 'Retailer', 'Visitor'];
@@ -14,6 +14,7 @@ export default function CustomerForm({ initial = null, onSuccess }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [ocrLoading, setOcrLoading] = useState(false);
+  const [ocrProgress, setOcrProgress] = useState(0);
   const [ocrDone, setOcrDone] = useState(false);
 
   const [form, setForm] = useState({
@@ -40,13 +41,11 @@ export default function CustomerForm({ initial = null, onSuccess }) {
   const handleOCR = async () => {
     setOcrLoading(true);
     setOcrDone(false);
+    setOcrProgress(0);
     try {
-      const fields = await recognizeCard(cardPhoto);
-      // Only fill non-null fields returned by the API
-      const updates = Object.fromEntries(
-        Object.entries(fields).filter(([, v]) => v != null && v !== '')
-      );
-      setForm(f => ({ ...f, ...updates }));
+      const ocrData = await recognizeCard(cardPhoto, setOcrProgress);
+      const fields = parseCardFields(ocrData);
+      setForm(f => ({ ...f, ...fields }));
       setOcrDone(true);
     } catch (err) {
       setError(`OCR: ${err.message}`);
@@ -118,7 +117,7 @@ export default function CustomerForm({ initial = null, onSuccess }) {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                   </svg>
-                  กำลังอ่านนามบัตร...
+                  กำลังอ่านนามบัตร... {ocrProgress > 0 ? `${ocrProgress}%` : ''}
                 </>
               ) : (
                 <>
